@@ -13,9 +13,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class ApiResponse {
 
-	public ApiResponse(boolean b, String message2) {
-		
-	}
+	
 	public String statusCode;
 	public String message;
 	

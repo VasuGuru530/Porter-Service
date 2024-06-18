@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.entity.UserEntity;
 import com.example.demo.model.ApiResponse;
+import com.example.demo.model.Signin;
 import com.example.demo.model.User;
 import com.example.demo.repository.UserRepository;
 import com.example.demo.service.EmailService;
@@ -32,7 +33,7 @@ public class UserServiceImpl implements UserService {
     public ApiResponse signUp(User user) {
         Optional<UserEntity> existingUser = userRepository.findByEmail(user.getEmail());
         if (existingUser.isPresent()) {
-            return new ApiResponse(false, "Email address already in use.");
+            return new ApiResponse("908", "Email address already in use.");
         }
         
         user.setCreatedDate(LocalDateTime.now());
@@ -51,14 +52,14 @@ public class UserServiceImpl implements UserService {
         String emailBody = "Thank you for registering. Please click the link to confirm your email: " + confirmationLink;
         emailService.sendEmail(user.getEmail(), "Email Confirmation", emailBody);
 
-        return new ApiResponse(true, "User registered successfully. Please check your email for confirmation.");  
+        return new ApiResponse("000", "User registered successfully. Please check your email for confirmation.");  
         }
 
     @Override
     public ApiResponse confirmEmail(String token) {
         Optional<UserEntity> userEntityOptional = userRepository.findByConfirmationToken(token);
         if (!userEntityOptional.isPresent()) {
-            return new ApiResponse(false, "Invalid or expired token.");
+            return new ApiResponse("905", "Invalid or expired token.");
         }
 
         UserEntity userEntity = userEntityOptional.get();
@@ -69,7 +70,7 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(userEntity);
 
-        return new ApiResponse(true, "Email confirmed successfully.");
+        return new ApiResponse("000", "Email confirmed successfully.");
     }
     
     
@@ -93,17 +94,17 @@ public class UserServiceImpl implements UserService {
 	
 	}
 	 @Override
-	    public ApiResponse login(User user) {
-	        Optional<UserEntity> userEntityOptional = userRepository.findByEmail(user.getEmail());
-	        if (!userEntityOptional.isPresent() || !userEntityOptional.get().getPassword().equals(user.getPassword())) {
-	            return new ApiResponse(false, "Invalid email or password.");
+	    public ApiResponse login(Signin signin) {
+	        Optional<UserEntity> userEntityOptional = userRepository.findByEmail(signin.getEmail());
+	        if (!userEntityOptional.isPresent() || !userEntityOptional.get().getPassword().equals(signin.getPassword())) {
+	            return new ApiResponse("901", "Invalid email or password.");
 	        }
 
 	        UserEntity userEntity = userEntityOptional.get();
 	        if (!"ACTIVE".equals(userEntity.getStatus())) {
-	            return new ApiResponse(false, "Email not confirmed. Please confirm your email.");
+	            return new ApiResponse("902", "Email not confirmed. Please confirm your email.");
 	        }
 
-	        return new ApiResponse(true, "Login successful.");
+	        return new ApiResponse("000", "Login successful.");
 	    }
 }

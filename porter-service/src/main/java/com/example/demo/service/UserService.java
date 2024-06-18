@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.example.demo.entity.UserEntity;
 import com.example.demo.model.ApiResponse;
+import com.example.demo.model.Signin;
 import com.example.demo.model.User;
 
 public interface UserService {
@@ -12,5 +13,5 @@ public interface UserService {
 	
 	public List<UserEntity> getAllUsers();
      public String updateUser(User user);
-	ApiResponse login(User user);
+	ApiResponse login(Signin signin);
 }

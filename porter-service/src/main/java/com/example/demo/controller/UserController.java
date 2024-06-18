@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.entity.UserEntity;
 import com.example.demo.model.ApiResponse;
-
+import com.example.demo.model.Signin;
 import com.example.demo.model.User;
 import com.example.demo.service.UserService;
 
@@ -49,8 +49,8 @@ public class UserController {
     }
     
     @PostMapping("/login")
-    public ResponseEntity<ApiResponse> login(@RequestBody User user) {
-        ApiResponse response = userService.login(user);
+    public ResponseEntity<ApiResponse> login(@RequestBody Signin signin) {
+        ApiResponse response = userService.login(signin);
         return ResponseEntity.ok(response);
     }
 }
